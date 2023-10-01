@@ -1,0 +1,69 @@
+Dokumentacja Projektu Rekrutacyjnego
+Informacje ogólne:
+
+Projekt rekrutacyjny został zrealizowany przy użyciu frameworka Laravel w wersji 10 na backendzie oraz biblioteki React.js do stworzenia warstwy frontendowej.
+
+Struktura projektu:
+
+Projekt został podzielony na dwie główne części:
+
+    Backend (Laravel): Odpowiada za pobieranie danych z zewnętrznego serwisu, zapis do bazy danych, synchronizację oraz udostępnienie danych poprzez API.
+    Frontend (React.js): Odpowiada za wyświetlanie danych zapisanych w bazie.
+
+Problem do Rozwiązania:
+
+Głównym zadaniem projektu było pobranie ogłoszeń z serwisu Workable, zapisanie ich w bazie danych, synchronizacja oraz wyświetlenie w warstwie frontendowej.
+
+Analiza Serwisu Workable:
+
+    Serwis Workable udostępnia API dostępne pod adresem https://apply.workable.com/api/v3/accounts/testronic/jobs.
+
+Rozwiązanie:
+
+    Struktura Bazy Danych:
+        Utworzono bazę danych za pomocą migracji Laravel, baza danych jest kopią pól zwracanych z dostępnego API, dodatkowo zastosowano serializację danych w przypadku struktury Array.Array tak aby uniknąć JOINów.
+
+    Backend (Laravel):
+        Stworzono dwa endpointy:
+            GET /sync-jobs: Służy do synchronizacji ofert pracy z zewnętrznego API.
+                Parametry wejściowe:
+                    token: Token paginacji dla API zewnętrznego.
+                Odpowiedź:
+                    message: Informacja o sukcesie operacji.
+            POST /get-jobs: Zwraca oferty pracy spełniające podane kryteria.
+                Parametry wejściowe:
+                    country: Kraj.
+                    region: Region.
+                    city: Miasto.
+                Odpowiedź:
+                    jobs: Tablica ofert pracy spełniających kryteria.
+
+    Frontend (React.js):
+        Użyto Axios do komunikacji z API.
+        Pobrano dane z backendu poprzez zapytanie POST na endpoint /get-jobs.
+        Wyświetlono dane w warstwie frontendowej.
+
+Uruchamianie Projektu:
+
+    Backend (Laravel):
+        W katalogu projektu Laravel uruchom poniższe komendy:
+
+    	composer install
+   	php artisan migrate
+    	php artisan serve
+
+    	Aplikacja Laravel będzie dostępna pod adresem http://localhost:8000.
+
+     Frontend (React.js):
+    	W katalogu projektu React uruchom poniższe komendy:
+
+    	npm install
+    	npm start
+
+   	Aplikacja React będzie dostępna pod adresem http://localhost:3000.
+
+Dodatkowe Informacje:
+
+    Projekt korzysta z wersji PHP 8.2.4., Mysql 10.4.28-MariaDB. Aplikacja react została skonfigurowaną tak, aby pobierała dane z endpointa ustawionego na http://localhost:8000
+
+Niestety nie skorzystałem z Dockera, nie miałem z nim styczności, rozumiem jego działanie i niebawem doszkolę się z jego obsługi. Nie mam problemu z instalowaniem środowisk Linux/Debian, natomiast Docker póki co nigdy nie był mi potrzebny.
